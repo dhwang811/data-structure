@@ -25,7 +25,7 @@ public interface BinaryTree {
      * @param value
      * @return
      */
-    Boolean insert(TreeNode root, Integer value);
+    TreeNode insert(TreeNode root, Integer value);
 
     /**
      * 删除数据
@@ -43,6 +43,5 @@ public interface BinaryTree {
      * @return
      */
     TreeNode buildTree(List<Integer> valueList);
-
 
 }
