@@ -16,14 +16,23 @@ public class TreeNode {
 
     private Integer value;
 
-    public TreeNode()
-    {
+    private Boolean isRed;
+
+    public TreeNode(){
 
     }
 
     public TreeNode(Integer value)
     {
         this.value = value;
+    }
+
+    public Boolean getRed() {
+        return isRed == null ? true : isRed;
+    }
+
+    public void setRed(Boolean red) {
+        isRed = red;
     }
 
     public TreeNode getParentNode() {

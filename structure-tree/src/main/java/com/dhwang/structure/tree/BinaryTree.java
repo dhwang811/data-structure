@@ -34,7 +34,7 @@ public interface BinaryTree {
      * @param value
      * @return
      */
-    Boolean delete(TreeNode root, Integer value);
+    TreeNode delete(TreeNode root, Integer value);
 
     /**
      * 构建树，返回根节点
@@ -43,5 +43,14 @@ public interface BinaryTree {
      * @return
      */
     TreeNode buildTree(List<Integer> valueList);
+
+
+    /**
+     * 遍历二叉树
+     *
+     * @param root
+     */
+    void iterator(TreeNode root);
+
 
 }

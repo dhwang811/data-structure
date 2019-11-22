@@ -1,7 +1,6 @@
 package com.dhwang.structure.tree;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -84,22 +83,22 @@ public class BinaryTreeImpl implements BinaryTree {
     }
 
     @Override
-    public Boolean delete(TreeNode root, Integer value) {
+    public TreeNode delete(TreeNode root, Integer value) {
         TreeNode delNode = find(root, value);
         if(null == delNode)
         {
-             return false;
+            // 未查询到要删除节点
+            return root;
         }
         TreeNode pNode = delNode.getParentNode();
         TreeNode lNode = delNode.getLeftNode();
         TreeNode rNode = delNode.getRightNode();
-
         if(null == lNode && null == rNode)
         {
             if(null == pNode)
             {
                 // 删除节点为根节点
-                root = null;
+                return null;
             }
             else
             {
@@ -121,26 +120,41 @@ public class BinaryTreeImpl implements BinaryTree {
             if(null != lNode)
             {
                 lNode.setParentNode(pNode);
-                if(delNode.equals(pNode.getLeftNode()))
+                if(null != pNode)
                 {
-                    pNode.setLeftNode(lNode);
+                    if(delNode.equals(pNode.getLeftNode()))
+                    {
+                        pNode.setLeftNode(lNode);
+                    }
+                    else
+                    {
+                        pNode.setRightNode(lNode);
+                    }
                 }
                 else
                 {
-                    pNode.setRightNode(lNode);
+                    root = delNode.getLeftNode();
                 }
+
                 delNode.setLeftNode(null);
             }
             else
             {
                 rNode.setParentNode(pNode);
-                if(delNode.equals(pNode.getRightNode()))
+                if(null != pNode)
                 {
-                    pNode.setLeftNode(rNode);
+                    if(delNode.equals(pNode.getRightNode()))
+                    {
+                        pNode.setLeftNode(rNode);
+                    }
+                    else
+                    {
+                        pNode.setRightNode(rNode);
+                    }
                 }
                 else
                 {
-                    pNode.setRightNode(rNode);
+                    root = delNode.getRightNode();
                 }
                 delNode.setRightNode(null);
             }
@@ -151,18 +165,36 @@ public class BinaryTreeImpl implements BinaryTree {
             TreeNode nextNode = getNextNode(delNode);
             TreeNode pNextNode = nextNode.getParentNode();
             TreeNode rNextNode = nextNode.getRightNode();
-            nextNode.setParentNode(delNode.getParentNode());
-            nextNode.setLeftNode(delNode.getLeftNode());
-            if(!pNextNode.equals(delNode) && rNextNode != null)
+            nextNode.setParentNode(pNode);
+            nextNode.setLeftNode(lNode);
+
+            if(!pNextNode.equals(delNode))
             {
-                rNextNode.setParentNode(pNextNode);
+                //后继节点的父节点不是待删除节点
+                nextNode.setRightNode(rNode);
                 pNextNode.setLeftNode(rNextNode);
+            }
+
+            if(null != pNode)
+            {
+                if(delNode.equals(pNode.getRightNode()))
+                {
+                    pNode.setRightNode(nextNode);
+                }
+                else
+                {
+                    pNode.setLeftNode(nextNode);
+                }
+            }
+            else
+            {
+                root = nextNode;
             }
             delNode.setParentNode(null);
             delNode.setLeftNode(null);
             delNode.setRightNode(null);
         }
-        return true;
+        return root;
     }
 
     private TreeNode getNextNode(TreeNode delNode) {
@@ -190,5 +222,17 @@ public class BinaryTreeImpl implements BinaryTree {
             insert(root, currentVal);
         }
         return root;
+    }
+
+    @Override
+    public void iterator(TreeNode root) {
+
+        if(null == root)
+        {
+            return;
+        }
+        iterator(root.getLeftNode());
+        System.out.print(root.getValue() + " ");
+        iterator(root.getRightNode());
     }
 }
