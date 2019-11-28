@@ -39,9 +39,17 @@ public class BinaryTreeImpl implements BinaryTree {
 
     @Override
     public TreeNode insert(TreeNode root, Integer value) {
-        if(null == root || null == value)
+
+        if(null == value)
         {
-            return null;
+            // 空节点不做插入处理
+            return root;
+        }
+
+        if(null == root)
+        {
+            //根节点为空，创建根节点
+            return new TreeNode(value);
         }
         TreeNode p = root, cp;
         boolean isLeft;
@@ -51,8 +59,8 @@ public class BinaryTreeImpl implements BinaryTree {
             Integer pVal = cp.getValue();
             if(value.equals(pVal))
             {
-                //插入节点已存在，返回已存在节点
-                return cp;
+                //插入节点已存在，返回已存在节点, 不做插入处理
+                return root;
             }
             else if(value > pVal)
             {
@@ -79,7 +87,7 @@ public class BinaryTreeImpl implements BinaryTree {
                 }
             }
         }
-        return null;
+        return root;
     }
 
     @Override
